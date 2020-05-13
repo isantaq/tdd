@@ -8,20 +8,44 @@ import java.time.ZonedDateTime;
  */
 public final class Control {
 
+    /**
+     * ID
+     */
     private Long idControl;
 
+    /**
+     * Fecha
+     */
     private ZonedDateTime fecha;
 
+    /**
+     * Fecha del Proximo Control
+     */
     private ZonedDateTime fechaProximoControl;
 
+    /**
+     * Temperatura
+     */
     private Double temperatura;
 
+    /**
+     * Peso
+     */
     private Double peso;
 
+    /**
+     * Altura
+      */
     private Double altura;
 
+    /**
+     * Diagnostico
+     */
     private String diagnostico;
 
+    /**
+     * Veterinario encargado
+     */
     private String veterinario;
 
     /**
