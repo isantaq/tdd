@@ -24,59 +24,77 @@
 
 package cl.ucn.disc.pdbp.tdd.model;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
 import java.time.ZonedDateTime;
 
 /**
- * Ficha Veterinaria.
- *
+ * Clase Ficha Veterinaria.
  * @author Ignacio Santander Quiñones.
  */
+@DatabaseTable(tableName = "Ficha")
 public final class Ficha {
 
     /**
      * Numero de ficha
      */
-    private final long numero;
+    @DatabaseField(canBeNull = false)
+    private Long numero;
 
     /**
      * Nombre del paciente
      */
-    private final String nombrePaciente;
+    @DatabaseField(canBeNull = false)
+    private String nombrePaciente;
 
     /**
      * Especie: ej. canino, felino
      */
-    private final String especie;
+    @DatabaseField(canBeNull = false)
+    private String especie;
 
     /**
      * Fecha de nacimiento
      */
-    private final ZonedDateTime fechaNacimiento;
+    @DatabaseField(canBeNull = false)
+    private ZonedDateTime fechaNacimiento;
 
     /**
      * Raza
      */
-    private final String raza;
+    @DatabaseField(canBeNull = false)
+    private String raza;
 
     /**
      * Sexo: macho/hembra
      */
-    private final Sexo sexo;
+    @DatabaseField(canBeNull = false)
+    private Sexo sexo;
 
     /**
      * Color: rojo cobrizo, cafe
      */
-    private final String color;
+    @DatabaseField(canBeNull = false)
+    private String color;
 
     /**
      * Tipo: interno/externo
      */
-    private final Tipo tipo;
+    @DatabaseField(canBeNull = false)
+    private Tipo tipo;
+
 
     /**
-     * The Constructor.
-     *
-     * @param numero, Numero de la Ficha.
+     * The Constructor of the Ficha. TODO: Validar Fecha
+     * ✓ El nombre no puede ser null.
+     * ✓ El nombre debe tener al menos 3 letras.
+     * - Fecha no puede ser futura.
+     * - Fecha no puede ser muy al pasado.
+     * ✓ La raza no puede ser null.
+     * ✓ La raza debe tener al menos 3 letras.
+     * ✓ El color no puede ser vacio.
+     * ✓ El color debe tener al menos 3 letras.
      * @param nombrePaciente, Nombre del Paciente.
      * @param especie, Especie del Paciente.
      * @param fechaNacimiento, Fecha de Nacimiento del Paciente.
@@ -85,9 +103,38 @@ public final class Ficha {
      * @param color, Color del Paciente.
      * @param tipo, Tipo del Paciente.
      */
-    public Ficha(final long numero, final String nombrePaciente, final String especie, final ZonedDateTime fechaNacimiento, final String raza, final Sexo sexo, final String color, final Tipo tipo) {
-        // TODO: Agregar validaciones.
-        this.numero = numero;
+    public Ficha(String nombrePaciente, String especie, ZonedDateTime fechaNacimiento, String raza, Sexo sexo, String color, Tipo tipo) {
+
+        // Nombre no puede ser null
+        if(nombrePaciente == null){
+            throw new NullPointerException("El nombre no puede ser null");
+        }
+
+        // Raza no puede ser null
+        if(raza == null){
+            throw new NullPointerException("La raza no puede ser null");
+        }
+
+        // Color no puede ser null
+        if(color == null){
+            throw new NullPointerException("El color no puede ser null");
+        }
+
+        // Nombre debe tener al menos 3 letras
+        if(nombrePaciente.length()<3){
+            throw new RuntimeException("El nombre debe tener al menos 3 letras");
+        }
+
+        // Raza debe tener al menos 3 letras
+        if (raza.length()<3) {
+            throw new RuntimeException("La raza debe tener al menos 3 letras");
+        }
+
+        // Color debe tener al menos 3 letras
+        if(color.length()<3){
+            throw new RuntimeException("El color debe tener al menos 3 letras");
+        }
+        //if(fechaNacimiento.isAfter()){}
         this.nombrePaciente = nombrePaciente;
         this.especie = especie;
         this.fechaNacimiento = fechaNacimiento;
