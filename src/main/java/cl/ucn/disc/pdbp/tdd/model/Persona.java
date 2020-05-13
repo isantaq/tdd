@@ -48,6 +48,30 @@ public final class Persona {
     private String nombre;
 
     /**
+     * Direccion
+     */
+    @DatabaseField(canBeNull = false)
+    private String direccion;
+
+    /**
+     * Telefono Fijo
+     */
+    @DatabaseField()
+    private Integer telefonoFijo;
+
+    /**
+     * Telfono Movil
+     */
+    @DatabaseField(canBeNull = false)
+    private Integer telefonoMovil;
+
+    /**
+     * Email
+     */
+    @DatabaseField(canBeNull = false, index = true)
+    private String email;
+
+    /**
      * Apellido
      */
     @DatabaseField(canBeNull = false)
@@ -59,6 +83,7 @@ public final class Persona {
     @DatabaseField(canBeNull = false, index = true)
     private String rut;
 
+
     /**
      * Constructor Vacio
      */
@@ -67,27 +92,70 @@ public final class Persona {
     }
 
     /**
-     * Constructor the Persona.
-     * - El nombre no puede ser null.
-     * - El nombre debe tener al menos 2 letras.
-     * - El apellido no puede ser null.
-     * - El apellido debe tener al menos 3 letras.
-     * - El rut no puede ser null.
-     * - El rut debe ser valido.
-     * @param nombre, Nombre de la Persona.
-     * @param apellido, Apellido de la Persona.
-     * @param rut, Rut de la Persona.
+     *  Constructor of the Persona. TODO: El rut no debe existir anteirormente
+     * ✓ El nombre no puede ser null.
+     * ✓ El nombre debe tener al menos 3 letras.
+     * ✓ El apellido no puede ser null.
+     * ✓ El apellido debe tener al menos 3 letras.
+     * ✓ El rut no puede ser null.
+     * ✓ El rut debe ser valido.
+     * - El rut no debe existir anteriormente en los registros.
+     * ✓ La direccion no puede ser null
+     * ✓ La direccion debe tener al menos 3 letras.
+     * ✓ El telefono fijo no puede ser null.
+     * ✓ El telefono fijo debe tener al menos 7 digitos.
+     * ✓ El telefono movil no puede ser null.
+     * ✓ El tenefono movil debe tener al menos 7 digitos.
+     * ✓ El email no puede ser null.
+     * -✓ El email debe ser valido.
+     * @param nombre el nombre de la Persona.
+     * @param apellido el apellido de la Persona.
+     * @param rut el rut de la Persona.
+     * @param direccion la direccion de la Persona.
+     * @param telefonoFijo el telefonoFijo de la Persona.
+     * @param telefonoMovil el telefonMovil de la Persona.
+     * @param email el email de la Persona.
      */
-    public Persona(String nombre, String apellido, String rut) {
+    public Persona(String nombre, String apellido, String rut, String direccion, Integer telefonoFijo, Integer telefonoMovil, String email) {
 
-        // Nombre, Apellido y Rut no deben ser Null
-        if(nombre == null | apellido == null | rut == null){
-            throw new NullPointerException("El nombre, apelllido o rut no pueden ser null");
+        // Nombre no debe ser Null
+        if(nombre == null){
+            throw new NullPointerException("El nombre no puede ser null");
         }
 
-        //Nombre debe tener al menos 2 letras.
-        if(nombre.length()<2){
-            throw new RuntimeException("El nombre debe tener al menos 2 letras");
+        // El Apellido no puede ser null
+        if(apellido == null){
+            throw new NullPointerException("El apellido no puede ser null");
+        }
+
+        // El Rut no puede ser null
+        if(rut == null){
+            throw new NullPointerException("El rut no puede ser null");
+        }
+
+        // La direccion no puede ser null
+        if(direccion == null){
+            throw new NullPointerException("La direccion no puede ser null");
+        }
+
+        // El telefono fijo no puede ser null
+        if(telefonoFijo == null){
+            throw new NullPointerException("El telefono fijo no puede ser null");
+        }
+
+        // El telefono movil no puede ser null
+        if(telefonoMovil == null){
+            throw new NullPointerException("El telefono movil no puede ser null");
+        }
+
+        // El email no puede ser null
+        if(email == null){
+            throw new NullPointerException("El email no puede ser null");
+        }
+
+        //Nombre debe tener al menos 3 letras.
+        if(nombre.length()<3){
+            throw new RuntimeException("El nombre debe tener al menos 3 letras");
         }
 
         //Apellido debe tener al menos 3 letras.
@@ -95,15 +163,40 @@ public final class Persona {
             throw new RuntimeException("El apellido debe tener al menos 3 letras");
         }
 
+        //Direccion debe tener al menos 3 letras.
+        if(direccion.length()<3){
+            throw new RuntimeException("La direccion debe tener al menos 3 letras");
+        }
+
+        // El telefono fijo debe tener al menos 7 letras.
+        if(Integer.toString(telefonoFijo).length()<7){
+            throw new RuntimeException("El telefono fijo debe tener al menos 7 letras");
+        }
+
+        // El telefono movil debe tener al menos 7 letras.
+        if(Integer.toString(telefonoMovil).length()<7){
+            throw new RuntimeException("El telefono movil debe tener al menos 7 letras");
+        }
+
         //Rut debe ser valido
         if(!Validation.isRutValid(rut)){
             throw new RuntimeException("El rut debe ser valido");
         }
+
+        //El email debe ser valido
+        if(!Validation.isEmailValid(email)){
+            throw new RuntimeException("El email debe ser valido");
+        }
         this.nombre = nombre;
         this.apellido = apellido;
         this.rut = rut;
+        this.direccion = direccion;
+        this.telefonoFijo = telefonoFijo;
+        this.telefonoMovil = telefonoMovil;
+        this.email = email;
 
     }
+
 
     /**
      * @return the Nombre de la Persona.
@@ -131,6 +224,13 @@ public final class Persona {
      */
     public String getNombreApellido() {
         return (nombre + " " + apellido);
+    }
+
+    /**
+     * @return the Id de la Persona
+     */
+    public Long getId() {
+        return this.id;
     }
 
 }
