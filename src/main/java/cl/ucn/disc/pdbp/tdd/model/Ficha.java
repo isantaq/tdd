@@ -24,6 +24,7 @@
 
 package cl.ucn.disc.pdbp.tdd.model;
 
+import cl.ucn.disc.pdbp.tdd.dao.ZonedDateTimeType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -37,9 +38,14 @@ import java.time.ZonedDateTime;
 public final class Ficha {
 
     /**
+     * Id
+     */
+    @DatabaseField(generatedId = true)
+    private Long id;
+    /**
      * Numero de ficha
      */
-    @DatabaseField(canBeNull = false)
+    @DatabaseField(unique = true,canBeNull = false)
     private Long numero;
 
     /**
@@ -57,7 +63,7 @@ public final class Ficha {
     /**
      * Fecha de nacimiento
      */
-    @DatabaseField(canBeNull = false)
+    @DatabaseField(persisterClass = ZonedDateTimeType.class, canBeNull = false)
     private ZonedDateTime fechaNacimiento;
 
     /**
@@ -84,6 +90,21 @@ public final class Ficha {
     @DatabaseField(canBeNull = false)
     private Tipo tipo;
 
+    /**
+     * El Duenio
+     */
+    @DatabaseField(foreign = true, canBeNull = false, foreignAutoRefresh = true)
+    //foreign = true significa uqe es un externo, canBeNull false hace referencia a que no puede haber ficha sin duenio
+    //foreignAutoRefresh hace referencia a que en el repositorio dado un id da una clase; true es cada vez que vaya al repositorio
+    // y tenga a la persona va a traer todos los archivos de la ficha y de la persona
+    private Persona duenio;
+
+    /**
+     * The empty constructor.
+     */
+    Ficha(){
+        //Constructor vacio
+    }
 
     /**
      * The Constructor of the Ficha. TODO: Validar Fecha
@@ -102,8 +123,17 @@ public final class Ficha {
      * @param sexo, Sexo del Paciente.
      * @param color, Color del Paciente.
      * @param tipo, Tipo del Paciente.
+     * @param duenio, Duenio del Paciente.
      */
-    public Ficha(String nombrePaciente, String especie, ZonedDateTime fechaNacimiento, String raza, Sexo sexo, String color, Tipo tipo) {
+    public Ficha(Long numero,
+                 String nombrePaciente,
+                 String especie,
+                 ZonedDateTime fechaNacimiento,
+                 String raza,
+                 Sexo sexo,
+                 String color,
+                 Tipo tipo,
+                 Persona duenio) {
 
         // Nombre no puede ser null
         if(nombrePaciente == null){
@@ -142,6 +172,7 @@ public final class Ficha {
         this.sexo = sexo;
         this.color = color;
         this.tipo = tipo;
+        this.duenio = duenio;
     }
 
     /**
@@ -200,7 +231,10 @@ public final class Ficha {
         return this.tipo;
     }
 
-
-
-
+    /**
+     * @return the Duenio del paciente.
+     */
+    public Persona getDuenio() {
+        return this.duenio;
+    }
 }
