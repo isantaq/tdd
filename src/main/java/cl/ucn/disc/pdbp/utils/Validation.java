@@ -20,15 +20,22 @@ package cl.ucn.disc.pdbp.utils;
 import java.util.regex.Pattern;
 
 /**
- * The Validations. (Me faltaba hacer esto)
- *
+ * The Validations.
+ * (Me faltaba hacer esto)
  * @author Diego Urrutia-Astorga.
  */
 public final class Validation {
 
     /**
+     * Not for construction.
+     */
+    private Validation() {
+        // Empty
+    }
+
+    /**
      * @param rut to validate.
-     * @return true is rut is valid.
+     * @return true if rut is valid.
      */
     public static boolean isRutValid(String rut) {
 
@@ -54,6 +61,26 @@ public final class Validation {
         // The validation
         return validarRut(Integer.parseInt(numbers), dv);
 
+    }
+
+    /**
+     * The regular expression.
+     * - https://howtodoinjava.com/regex/java-regex-validate-email-address/
+     */
+    @SuppressWarnings("HardcodedFileSeparator")
+    private static final String REGEX = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
+
+    /**
+     * The regular expression compiled.
+     */
+    private static final Pattern PATTERN = Pattern.compile(REGEX);
+
+    /**
+     * @param email to validate.
+     * @return true is email is valid.
+     */
+    public static boolean isEmailValid(String email) {
+        return PATTERN.matcher(email).find();
     }
 
     /**
