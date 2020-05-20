@@ -24,6 +24,8 @@
 
 package cl.ucn.disc.pdbp.tdd.model;
 
+import com.j256.ormlite.field.DatabaseField;
+
 import java.time.ZonedDateTime;
 
 /**
@@ -35,42 +37,50 @@ public final class Control {
     /**
      * ID
      */
+    @DatabaseField(generatedId = true)
     private Long idControl;
 
     /**
      * Fecha
      */
+    @DatabaseField(canBeNull = false)
     private ZonedDateTime fecha;
 
     /**
      * Fecha del Proximo Control
      */
+    @DatabaseField(canBeNull = false)
     private ZonedDateTime fechaProximoControl;
 
     /**
      * Temperatura
      */
+    @DatabaseField(canBeNull = false)
     private Double temperatura;
 
     /**
      * Peso
      */
+    @DatabaseField(canBeNull = false)
     private Double peso;
 
     /**
      * Altura
       */
+    @DatabaseField(canBeNull = false)
     private Double altura;
 
     /**
      * Diagnostico
      */
+    @DatabaseField(canBeNull = false)
     private String diagnostico;
 
     /**
      * Veterinario encargado
      */
-    private String veterinario;
+    @DatabaseField(canBeNull = false)
+    private Persona veterinario;
 
     /**
      * Constructor of la clase Control TODO: Agregar Validaciones
@@ -97,7 +107,7 @@ public final class Control {
      * @param diagnostico diagnostico del Paciente.
      * @param veterinario veterinario encargado del Control.
      */
-    public Control(ZonedDateTime fecha, ZonedDateTime fechaProximoControl, Double temperatura, Double peso, Double altura, String diagnostico, String veterinario){
+    public Control(ZonedDateTime fecha, ZonedDateTime fechaProximoControl, Double temperatura, Double peso, Double altura, String diagnostico, Persona veterinario){
 
         // La temperatura no puede ser null
         if(temperatura == null){
@@ -147,5 +157,54 @@ public final class Control {
         this.altura = altura;
         this.diagnostico = diagnostico;
         this.veterinario = veterinario;
+    }
+
+    /**
+     * @return the fecha del control
+     */
+    public ZonedDateTime getFecha() {
+        return fecha;
+    }
+
+    /**
+     * @return the fecha del proximo control
+     */
+    public ZonedDateTime getFechaProximoControl(){
+        return fechaProximoControl;
+    }
+
+    /**
+     * @return the temperatura del paciente  del control
+     */
+    public Double getTemperatura(){
+        return temperatura;
+    }
+
+    /**
+     * @return the peso del paciente del control
+     */
+    public Double getPeso(){
+        return peso;
+    }
+
+    /**
+     * @return the altura del paciente del control
+     */
+    public Double getAltura(){
+        return altura;
+    }
+
+    /**
+     * @return the diagnostico del control
+     */
+    public String getDiagnostico(){
+        return  diagnostico;
+    }
+
+    /**
+     * @return the veterinario encargado del control
+     */
+    public Persona getVeterinario(){
+        return veterinario;
     }
 }
