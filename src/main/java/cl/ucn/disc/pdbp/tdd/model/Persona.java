@@ -197,7 +197,6 @@ public final class Persona {
 
     }
 
-
     /**
      * @return the Nombre de la Persona.
      */
@@ -231,6 +230,34 @@ public final class Persona {
      */
     public Long getId() {
         return this.id;
+    }
+
+    /**
+     * @return the Direccion de la persona
+     */
+    public String getDireccion(){
+        return this.direccion;
+    }
+
+    /**
+     * @return the Telefono Fijo de la persona
+     */
+    public Integer getTelefonoFijo() {
+        return this.telefonoFijo;
+    }
+
+    /**
+     * @return the Telefono Movil de la persona
+     */
+    public Integer getTelefonoMovil(){
+        return this.telefonoMovil;
+    }
+
+    /**
+     * @return the email de la persona
+     */
+    public String getEmail(){
+        return this.email;
     }
 
 }
