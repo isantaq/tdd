@@ -45,7 +45,7 @@ public final class Ficha {
     /**
      * Numero de ficha
      */
-    @DatabaseField(unique = true,canBeNull = false)
+    @DatabaseField(unique = true, canBeNull = false)
     private Long numero;
 
     /**
@@ -165,6 +165,7 @@ public final class Ficha {
             throw new RuntimeException("El color debe tener al menos 3 letras");
         }
         //if(fechaNacimiento.isAfter()){}
+        this.numero = numero;
         this.nombrePaciente = nombrePaciente;
         this.especie = especie;
         this.fechaNacimiento = fechaNacimiento;
@@ -236,5 +237,12 @@ public final class Ficha {
      */
     public Persona getDuenio() {
         return this.duenio;
+    }
+
+    /**
+     * @return the Id del control.
+     */
+    public Long getId() {
+        return id;
     }
 }
