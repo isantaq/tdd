@@ -24,6 +24,7 @@
 
 package cl.ucn.disc.pdbp.tdd.model;
 
+import cl.ucn.disc.pdbp.tdd.dao.ZonedDateTimeType;
 import com.j256.ormlite.field.DatabaseField;
 
 import java.time.ZonedDateTime;
@@ -43,13 +44,13 @@ public final class Control {
     /**
      * Fecha
      */
-    @DatabaseField(canBeNull = false)
+    @DatabaseField(persisterClass = ZonedDateTimeType.class, canBeNull = false)
     private ZonedDateTime fecha;
 
     /**
      * Fecha del Proximo Control
      */
-    @DatabaseField(canBeNull = false)
+    @DatabaseField(persisterClass = ZonedDateTimeType.class, canBeNull = false)
     private ZonedDateTime fechaProximoControl;
 
     /**
@@ -79,8 +80,21 @@ public final class Control {
     /**
      * Veterinario encargado
      */
-    @DatabaseField(canBeNull = false)
+    @DatabaseField(foreign = true, canBeNull = false, foreignAutoRefresh = true)
     private Persona veterinario;
+
+    /**
+     * La ficha
+     */
+    @DatabaseField(foreign = true, canBeNull = false, foreignAutoRefresh = true)
+    private Ficha ficha;
+
+    /**
+     * The empty Constuctor
+     */
+    Control(){
+        //Constructor vacio.
+    }
 
     /**
      * Constructor of la clase Control TODO: Agregar Validaciones
@@ -106,8 +120,16 @@ public final class Control {
      * @param altura altura del Paciente.
      * @param diagnostico diagnostico del Paciente.
      * @param veterinario veterinario encargado del Control.
+     * @param ficha la ficha donde se guardara el Control.
      */
-    public Control(ZonedDateTime fecha, ZonedDateTime fechaProximoControl, Double temperatura, Double peso, Double altura, String diagnostico, Persona veterinario){
+    public Control(ZonedDateTime fecha,
+                   ZonedDateTime fechaProximoControl,
+                   Double temperatura,
+                   Double peso,
+                   Double altura,
+                   String diagnostico,
+                   Persona veterinario,
+                   Ficha ficha){
 
         // La temperatura no puede ser null
         if(temperatura == null){
@@ -157,6 +179,7 @@ public final class Control {
         this.altura = altura;
         this.diagnostico = diagnostico;
         this.veterinario = veterinario;
+        this.ficha = ficha;
     }
 
     /**
@@ -206,5 +229,12 @@ public final class Control {
      */
     public Persona getVeterinario(){
         return veterinario;
+    }
+
+    /**
+     * @return the ficha donde esta el control
+     */
+    public Ficha getFicha(){
+        return ficha;
     }
 }
