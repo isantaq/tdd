@@ -132,29 +132,20 @@ public final class Control {
                    Ficha ficha){
 
         // La temperatura no puede ser null
-        if(temperatura == null){
-            throw new NullPointerException("La temperatura no puede ser null");
-        }
+        if(temperatura == null) throw new NullPointerException("La temperatura no puede ser null");
 
         // El peso no puede ser null
-        if(peso == null){
-            throw new NullPointerException("El peso no puede ser null");
-        }
+        if(peso == null) throw new NullPointerException("El peso no puede ser null");
 
         // La altura no puede ser null
-        if(altura == null){
-            throw new NullPointerException("La altura no puede ser null");
-        }
+        if(altura == null) throw new NullPointerException("La altura no puede ser null");
 
         // El diagnostico no puede ser null
-        if(diagnostico == null){
-            throw new NullPointerException("El diagnostico no puede ser null");
-        }
+        if(diagnostico == null) throw new NullPointerException("El diagnostico no puede ser null");
 
         // El veterinario no puede ser null
-        if(veterinario == null){
-            throw new NullPointerException("El veterinario no puede ser null");
-        }
+        if(veterinario == null) throw new NullPointerException("El veterinario no puede ser null");
+
 
         // La temperatura no puede ser negativa
         if(temperatura < 0){
