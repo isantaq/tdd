@@ -55,5 +55,11 @@ public interface Contratos {
      */
     List<Ficha> buscarFicha(String query);
 
+    /**
+     *  Contrato: C04 - Obtener todas las ficas
+     * @return la lista de fichas
+     */
+    List<Ficha> getAllFichas();
+
 
 }
