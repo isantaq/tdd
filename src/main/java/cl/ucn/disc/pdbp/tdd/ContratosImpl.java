@@ -43,7 +43,10 @@ import org.slf4j.LoggerFactory;
 import java.sql.SQLException;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 /**
  * Implementation of Contratos.
@@ -198,8 +201,27 @@ public class ContratosImpl implements Contratos{
         }catch(SQLException ex){
             throw new RuntimeException(ex);
         }
-        // TODO: Eliminar fichas repetidas.
+
+        // Remove duplicated (by id)
+        return new ArrayList<>(
+                fichas.stream().collect(
+                        Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(Ficha::getId)))
+                )
+        );
+    }
+
+    /**
+     *  Contrato: C04 - Obtener todas las ficas
+     * @return la lista de fichas
+     */
+    @Override
+    public List<Ficha> getAllFichas(){
+
+        // The result: List of Ficha.
+        List<Ficha> fichas = new ArrayList<>();
+        // TODO: Implmentar recoger todas las fichas
         return fichas;
+
     }
 
 }
