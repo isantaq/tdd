@@ -116,77 +116,40 @@ public final class Persona {
      * @param telefonoMovil el telefonMovil de la Persona.
      * @param email el email de la Persona.
      */
-    public Persona(String nombre, String apellido, String rut, String direccion, Integer telefonoFijo, Integer telefonoMovil, String email) {
+    public Persona(String nombre,
+                   String apellido,
+                   String rut,
+                   String direccion,
+                   Integer telefonoFijo,
+                   Integer telefonoMovil,
+                   String email) {
 
-        // Nombre no debe ser Null
-        if(nombre == null){
-            throw new NullPointerException("El nombre no puede ser null");
-        }
+        // Los parametros no pueden ser null
+        if(nombre == null ||
+                apellido == null ||
+                rut == null ||
+                direccion == null ||
+                telefonoFijo == null ||
+                telefonoMovil == null ||
+                email == null)
+            throw new NullPointerException("Ningun parametro puede ser null");
 
-        // El Apellido no puede ser null
-        if(apellido == null){
-            throw new NullPointerException("El apellido no puede ser null");
-        }
-
-        // El Rut no puede ser null
-        if(rut == null){
-            throw new NullPointerException("El rut no puede ser null");
-        }
-
-        // La direccion no puede ser null
-        if(direccion == null){
-            throw new NullPointerException("La direccion no puede ser null");
-        }
-
-        // El telefono fijo no puede ser null
-        if(telefonoFijo == null){
-            throw new NullPointerException("El telefono fijo no puede ser null");
-        }
-
-        // El telefono movil no puede ser null
-        if(telefonoMovil == null){
-            throw new NullPointerException("El telefono movil no puede ser null");
-        }
-
-        // El email no puede ser null
-        if(email == null){
-            throw new NullPointerException("El email no puede ser null");
-        }
-
-        //Nombre debe tener al menos 3 letras.
-        if(nombre.length()<3){
-            throw new RuntimeException("El nombre debe tener al menos 3 letras");
-        }
-
-        //Apellido debe tener al menos 3 letras.
-        if(apellido.length()<3){
-            throw new RuntimeException("El apellido debe tener al menos 3 letras");
-        }
-
-        //Direccion debe tener al menos 3 letras.
-        if(direccion.length()<3){
-            throw new RuntimeException("La direccion debe tener al menos 3 letras");
+        // Nombre debe tener al menos 3 letras.
+        if(nombre.length()<3 || apellido.length()<3 || direccion.length()<3) {
+            throw new RuntimeException("El nombre, apellido y direccion deben tener al menos 3 letras");
         }
 
         // El telefono fijo debe tener al menos 7 letras.
-        if(Integer.toString(telefonoFijo).length()<7){
-            throw new RuntimeException("El telefono fijo debe tener al menos 7 letras");
+        if(Integer.toString(telefonoFijo).length()<7 || Integer.toString(telefonoMovil).length()<7){
+            throw new RuntimeException("El telefono fijo y movil deben tener al menos 7 letras");
         }
 
-        // El telefono movil debe tener al menos 7 letras.
-        if(Integer.toString(telefonoMovil).length()<7){
-            throw new RuntimeException("El telefono movil debe tener al menos 7 letras");
-        }
+        // Rut debe ser valido
+        if(!Validation.isRutValid(rut)) throw new RuntimeException("El rut debe ser valido");
 
-        //Rut debe ser valido
-        if(!Validation.isRutValid(rut)){
-            throw new RuntimeException("El rut debe ser valido");
-        }
+        // El email debe ser valido
+        if(!Validation.isEmailValid(email)) throw new RuntimeException("El email debe ser valido");
 
-        //El email debe ser valido
-        if(!Validation.isEmailValid(email)){
-            throw new RuntimeException("El email debe ser valido");
-        }
         this.nombre = nombre;
         this.apellido = apellido;
         this.rut = rut;
@@ -194,7 +157,6 @@ public final class Persona {
         this.telefonoFijo = telefonoFijo;
         this.telefonoMovil = telefonoMovil;
         this.email = email;
-
     }
 
     /**
