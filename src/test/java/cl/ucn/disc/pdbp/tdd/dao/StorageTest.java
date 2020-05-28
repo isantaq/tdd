@@ -76,28 +76,30 @@ public final class StorageTest {
 
 
             //1. Crear la Persona desde un Repository
-            Persona duenio = new Persona("Andrea",
-                    "Contreras",
-                    "152532873",
+            Persona duenio = new Persona("Felipe",
+                    "Santander",
+                    "210674608",
                     "Calle Falsa 123",
-                    5895555,
-                    548855558,
-                    "andrea.contreras@feik.com");
+                    552771070,
+                    949872950,
+                    "felipesantanderq13@gmail.com");
+
             //Crear el objeto en la base de datos
             if(!repositoryPersona.create(duenio)){
                 Assertions.fail("Can't insert Persona!");
             }
 
             // 2. Instanciar una Ficha pasando la persona como parametro del constructor
-            Ficha ficha = new Ficha(123L,
-                    "Firulais",
+            Ficha ficha = new Ficha(124L,
+                    "Galatea",
                     "Canino",
                     ZonedDateTime.now(),
-                    "Pastor Ingles",
-                    Sexo.MACHO,
-                    "Negro",
+                    "YorkShire Terrier",
+                    Sexo.HEMBRA,
+                    "Negro Dorado",
                     Tipo.INTERNO,
                     duenio);
+
             // Crear el objeto en la base de datos
             if(!repositoryFicha.create(ficha)){
                 Assertions.fail("Can't insert the Ficha!");
@@ -105,7 +107,8 @@ public final class StorageTest {
 
             // 3. Obtener una ficha y revisar si sus atributos son distintos de null.
             // 1L = Long.valueof(1) = definir el tipo
-            Ficha ficha2 = repositoryFicha.findById(1L);
+            Ficha ficha2 = repositoryFicha.findById(ficha.getId());
+
             // La ficha no puede ser nul!!
             Assertions.assertNotNull(ficha2, "Ficha was null");
             Assertions.assertNotNull(ficha2.getDuenio(),"Duenio de Ficha was null");
@@ -205,7 +208,7 @@ public final class StorageTest {
 
             // 4. Obtener una ficha y revisar si sus atributos son distintos de null.
             // 1L = Long.valueof(1) = definir el tipo
-            Ficha ficha2 = repositoryFicha.findById(1L);
+            Ficha ficha2 = repositoryFicha.findById(ficha.getId());
             // La ficha no puede ser nul!!
             Assertions.assertNotNull(ficha2, "Ficha was null");
             Assertions.assertNotNull(ficha2.getDuenio(), "Duenio de Ficha was null");
@@ -245,7 +248,13 @@ public final class StorageTest {
             Dao<Persona,Long> daoPersona = DaoManager.createDao(conectionSource,Persona.class);
 
             // New Persona
-            Persona persona = new Persona("Andrea","Contreras","152532873","Calle Falsa 123", 5895555,54888,"andrea.contreras@feik.com");
+            Persona persona = new Persona("Camila",
+                    "Heredia",
+                    "188994504",
+                    "Calle Falsa 125",
+                    552771080,
+                    998054395,
+                    "chv008@alumnos.ucn.com");
 
             // Insert Persona into the database
             int tuples = daoPersona.create(persona);
