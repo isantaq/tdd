@@ -25,10 +25,13 @@
 package cl.ucn.disc.pdbp.tdd.model;
 
 import cl.ucn.disc.pdbp.tdd.dao.ZonedDateTimeType;
+import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.time.ZonedDateTime;
+import java.util.List;
 
 /**
  * Clase Ficha Veterinaria.
@@ -100,6 +103,12 @@ public final class Ficha {
     private Persona duenio;
 
     /**
+     * La lista de controles
+     */
+    @ForeignCollectionField
+    private ForeignCollection<Control> controlList;
+
+    /**
      * The empty constructor.
      */
     Ficha(){
@@ -135,35 +144,16 @@ public final class Ficha {
                  Tipo tipo,
                  Persona duenio) {
 
-        // Nombre no puede ser null
-        if(nombrePaciente == null){
-            throw new NullPointerException("El nombre no puede ser null");
+        // Los atributos no pueden ser null
+        if(nombrePaciente == null || raza == null || color == null){
+            throw new NullPointerException("Ningun atributo puede ser null");
         }
 
-        // Raza no puede ser null
-        if(raza == null){
-            throw new NullPointerException("La raza no puede ser null");
+        // Nombre, Raza, Color debe tener al menos 3 letras
+        if (raza.length()<3 || color.length()<3 || nombrePaciente.length()<3) {
+            throw new RuntimeException("El nombre, raza, color deben tener al menos 3 letras");
         }
 
-        // Color no puede ser null
-        if(color == null){
-            throw new NullPointerException("El color no puede ser null");
-        }
-
-        // Nombre debe tener al menos 3 letras
-        if(nombrePaciente.length()<3){
-            throw new RuntimeException("El nombre debe tener al menos 3 letras");
-        }
-
-        // Raza debe tener al menos 3 letras
-        if (raza.length()<3) {
-            throw new RuntimeException("La raza debe tener al menos 3 letras");
-        }
-
-        // Color debe tener al menos 3 letras
-        if(color.length()<3){
-            throw new RuntimeException("El color debe tener al menos 3 letras");
-        }
         //if(fechaNacimiento.isAfter()){}
         this.numero = numero;
         this.nombrePaciente = nombrePaciente;
@@ -245,4 +235,5 @@ public final class Ficha {
     public Long getId() {
         return id;
     }
+
 }
