@@ -24,6 +24,7 @@
 
 package cl.ucn.disc.pdbp.tdd;
 
+import cl.ucn.disc.pdbp.tdd.model.Ficha;
 import cl.ucn.disc.pdbp.tdd.model.Persona;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -123,6 +124,24 @@ public final class Application {
 
             // Send the List
             ctx.json(personas);
+        });
+
+        // The Contratos
+        Contratos contratos = new ContratosImpl("jdbc:sqlite:fivet.db");
+
+        // Get all the fichas
+        javalin.get("/v1/fichas/", ctx -> {
+            List<Ficha> fichas = contratos.getAllFichas();
+            ctx.json(fichas);
+        });
+
+        // Get the fichas
+        javalin.get("/v1/fichas/find/:query", ctx -> {
+            String query = ctx.pathParam("query");
+            log.debug("Query: <{}>", query);
+
+            List<Ficha> fichas = contratos.buscarFicha(query);
+            ctx.json(fichas);
         });
 
     }
