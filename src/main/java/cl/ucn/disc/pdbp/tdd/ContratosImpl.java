@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Ignacio Santander Quiñones <ignacio.santander@alumnos.ucn.cl>.
+ * Copyright (c) 2020 Ignacio Santander Quiñones <ignacio.santander@alumnos.ucn.cl>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -211,17 +211,40 @@ public class ContratosImpl implements Contratos{
     }
 
     /**
-     *  Contrato: C04 - Obtener todas las ficas
-     * @return la lista de fichas
+     * Ruta 1
+     * @return la lista de todas las Fichas.
      */
     @Override
     public List<Ficha> getAllFichas(){
+        return this.repoFicha.findAll();
+    }
 
-        // The result: List of Ficha.
-        List<Ficha> fichas = new ArrayList<>();
-        // TODO: Implmentar recoger todas las fichas
-        return fichas;
+    /**
+     * Ruta 3
+     * @return la lista de todas las Personas.
+     */
+    @Override
+    public List<Persona> getAllPersonas(){
+        return this.repoPersona.findAll();
+    }
 
+    /**
+     * Ruta 5
+     * @return la lista de todas las Personas.
+     */
+    @Override
+    public List<Control> getControlesOfFicha(Long numero){
+        return this.repoFicha.findAll("numero", numero).get(0).getControles();
+    }
+
+    /**
+     * Ruta 6
+     * @param numero de la ficha
+     * @return la Persona (Duenio) de Ficha.
+     */
+    @Override
+    public Persona getDuenioOfFicha(Long numero) {
+        return this.repoFicha.findAll("numero", numero).get(0).getDuenio();
     }
 
 }
