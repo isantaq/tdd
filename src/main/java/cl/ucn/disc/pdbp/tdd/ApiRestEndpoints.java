@@ -24,13 +24,12 @@
 
 package cl.ucn.disc.pdbp.tdd;
 
-import cl.ucn.disc.pdbp.tdd.model.Control;
-import cl.ucn.disc.pdbp.tdd.model.Ficha;
-import cl.ucn.disc.pdbp.tdd.model.Persona;
+import cl.ucn.disc.pdbp.tdd.model.*;
 import io.javalin.http.Context;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 
 
@@ -54,13 +53,48 @@ public final class ApiRestEndpoints {
     }
 
     /**
-     * Ruta 1
+     * Ruta 1 GET
      * @param ctx the Javalin {@link Context}.
      */
     public static void getAllFichas(Context ctx){
         log.debug("Getting all the Fichas ..");
         List<Ficha> fichas = CONTRATOS.getAllFichas();
         ctx.json(fichas);
+    }
+
+    /**
+     * Ruta 1 POST
+     * @param ctx the Javalin {@link Context}.
+     */
+    public static void createFicha(Context ctx){
+
+        log.debug("Creating Ficha ..");
+
+        // Obtain the data for the parameters
+        Long numero = Long.parseLong(ctx.formParam("numero"));
+        String nombrePaciente = ctx.formParam("nombrePaciente");
+        String especie = ctx.formParam("especie");
+        String raza = ctx.formParam("raza");
+        Sexo sexo;
+        if(ctx.formParam("sexo").equalsIgnoreCase("hembra")){
+            sexo = Sexo.HEMBRA;
+        }else{
+            sexo = Sexo.MACHO;
+        }
+        String color = ctx.formParam("color");
+        Tipo tipo;
+        if(ctx.formParam("tipo").equalsIgnoreCase("externo")){
+            tipo = Tipo.EXTERNO;
+        }else{
+            tipo = Tipo.INTERNO;
+        }
+        // Create the entitys
+        Long idDuenio = Long.parseLong(ctx.formParam("duenio"));
+        Persona duenio = CONTRATOS.getDuenioOfFicha(idDuenio);
+
+        Ficha ficha = new Ficha(numero,nombrePaciente,especie,ZonedDateTime.now(),raza,sexo,color,tipo,duenio);
+        CONTRATOS.registrarPaciente(ficha);
+        ctx.json(ficha);
     }
 
     /**
@@ -86,7 +120,28 @@ public final class ApiRestEndpoints {
     }
 
     /**
-     * Ruta 5
+     * Ruta 3 POST
+     * @param ctx the Javalin {@link Context}.
+     */
+    public static void createPersona(Context ctx){
+        log.debug("Creating Persona ..");
+        // Obtain the data for the parameters
+        String nombre = ctx.formParam("nombre");
+        String apellido = ctx.formParam("apellido");
+        String rut = ctx.formParam("rut");
+        String direccion = ctx.formParam("direccion");
+        Integer telefonoFijo = Integer.parseInt(ctx.formParam("telefonoFijo"));
+        Integer telefonoMovil = Integer.parseInt(ctx.formParam("telefonoMovil"));
+        String email = ctx.formParam("email");
+
+        // Create the entitys
+        Persona persona = new Persona(nombre,apellido,rut,direccion,telefonoFijo,telefonoMovil,email);
+        CONTRATOS.registrarPersona(persona);
+        ctx.json(persona);
+    }
+
+    /**
+     * Ruta 5 GET
      * @param ctx the Javalin {@link Context}.
      */
     public static void getControlesOfFicha(Context ctx){
@@ -97,7 +152,40 @@ public final class ApiRestEndpoints {
     }
 
     /**
-     * Ruta 6
+     * Ruta 5 POST
+     * @param ctx the Javalin {@link Context}.
+     */
+    public static void createControl(Context ctx){
+
+        log.debug("Creating Control ..");
+
+        // Obtain the data for the parameters
+        Double temperatura = Double.parseDouble(ctx.formParam("nombrePaciente"));
+        Double peso = Double.parseDouble(ctx.formParam("peso"));
+        Double altura = Double.parseDouble(ctx.formParam("altura"));
+        String diagnostico = ctx.formParam("diagnostico");
+
+        Long numeroFicha = Long.parseLong(ctx.formParam("numero"));
+        Ficha ficha = CONTRATOS.getFicha(numeroFicha);
+        Long idVeterinario = Long.parseLong(ctx.formParam("veterinario"));
+        Persona veterinario = CONTRATOS.getPersona(idVeterinario);
+
+        // New Control
+        Control control = new Control(ZonedDateTime.now(),
+                ZonedDateTime.now().plusDays(15),
+                temperatura,
+                peso,
+                altura,
+                diagnostico,
+                veterinario,
+                ficha);
+        CONTRATOS.registrarControl(control);
+        ctx.json(control);
+    }
+
+
+    /**
+     * Ruta 6 GET
      * @param ctx the Javalin {@link Context}.
      */
     public static void getDuenioOfFicha(Context ctx){
