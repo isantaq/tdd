@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Ignacio Santander Quiñones <ignacio.santander@alumnos.ucn.cl>.
+ * Copyright (c) 2020 Ignacio Santander Quiñones <ignacio.santander@alumnos.ucn.cl>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,6 +29,7 @@ import cl.ucn.disc.pdbp.tdd.model.Persona;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.javalin.Javalin;
+import io.javalin.apibuilder.ApiBuilder;
 import io.javalin.core.util.RouteOverviewPlugin;
 import io.javalin.plugin.json.JavalinJson;
 import org.slf4j.Logger;
@@ -66,6 +67,7 @@ public final class Application {
         Gson gson = new GsonBuilder()
                 .setPrettyPrinting()
                 .create();
+
         JavalinJson.setFromJsonMapper(gson::fromJson);
         JavalinJson.setToJsonMapper(gson::toJson);
 
@@ -79,12 +81,50 @@ public final class Application {
             // Measure the time
             javalinConfig.requestLogger(((ctx, executionTimeMs) -> {
                 log.info("Server {} in {} ms.", ctx.fullUrl(), executionTimeMs);
-                ctx.header("Server-Timing", "total;dur="+ executionTimeMs);
+                ctx.header("Server-Timing", "total;dur=" + executionTimeMs);
             }));
 
             // Enable routes helper
             javalinConfig.registerPlugin(new RouteOverviewPlugin("/routes"));
+        // Define the routes
+        }).routes(() -> {
 
+            // The version
+            ApiBuilder.path("v1", () -> {
+
+                // /fichas
+                ApiBuilder.path("fichas", () -> {
+
+                    // Get -> /fichas
+                    ApiBuilder.get(ApiRestEndpoints::getAllFichas);
+
+                    // Get -> /fichas/find/{query}
+                    ApiBuilder.path("find/:query",()->{
+                        ApiBuilder.get(ApiRestEndpoints::findFichas);
+                    });
+
+                    // Get -> /fichas/{numeroFicha}/controles
+                    ApiBuilder.path(":numeroFicha/controles",()->{
+                        ApiBuilder.get(ApiRestEndpoints::getControlesOfFicha);
+                    });
+
+                    // Get -> /fichas/{numeroFicha}/persona
+                    ApiBuilder.path(":numeroFicha/persona",()->{
+                        ApiBuilder.get(ApiRestEndpoints::getDuenioOfFicha);
+                    });
+                });
+
+                // /personas
+                ApiBuilder.path("personas",()->{
+
+                    // Get -> /personas
+                    ApiBuilder.get(ApiRestEndpoints::getAllPersonas);
+
+                    // Get -> /personas/?/pageSize={size}&page={number}
+
+                });
+            });
+            // Start the server at port 7000
         }).start(7000);
 
         // Sutdown hook!
@@ -100,8 +140,9 @@ public final class Application {
             ctx.result("The Date: "+ ZonedDateTime.now());
         });
 
+
         // Persona
-        javalin.get("/personas/",ctx -> {
+        javalin.get("/personasTest/",ctx -> {
 
             // Create simply list
             List<Persona> personas = Arrays.asList(
@@ -121,32 +162,10 @@ public final class Application {
                             "corre.feik2@gmail.com"
                             )
             );
-
             // Send the List
             ctx.json(personas);
         });
 
-        // The Contratos
-        Contratos contratos = new ContratosImpl("jdbc:sqlite:fivet.db");
-
-        // Get all the fichas
-        javalin.get("/v1/fichas/", ctx -> {
-            List<Ficha> fichas = contratos.getAllFichas();
-            ctx.json(fichas);
-        });
-
-        // Get the fichas
-        javalin.get("/v1/fichas/find/:query", ctx -> {
-            String query = ctx.pathParam("query");
-            log.debug("Query: <{}>", query);
-
-            List<Ficha> fichas = contratos.buscarFicha(query);
-            ctx.json(fichas);
-        });
-
     }
-
-
-
 
 }
