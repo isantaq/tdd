@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Ignacio Santander Quiñones <ignacio.santander@alumnos.ucn.cl>.
+ * Copyright (c) 2020 Ignacio Santander Quiñones <ignacio.santander@alumnos.ucn.cl>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,6 +24,7 @@
 
 package cl.ucn.disc.pdbp.tdd;
 
+import cl.ucn.disc.pdbp.tdd.model.Control;
 import cl.ucn.disc.pdbp.tdd.model.Ficha;
 import cl.ucn.disc.pdbp.tdd.model.Persona;
 
@@ -56,10 +57,30 @@ public interface Contratos {
     List<Ficha> buscarFicha(String query);
 
     /**
-     *  Contrato: C04 - Obtener todas las ficas
-     * @return la lista de fichas
+     * Ruta 1
+     * @return la lista de todas las fichas.
      */
     List<Ficha> getAllFichas();
+
+    /**
+     * Ruta 3
+     * @return la lista de todas las personas.
+     */
+    List<Persona> getAllPersonas();
+
+    /**
+     * Ruta 5
+     * @param numero de la ficha
+     * @return la lista de todos los Controles de una Ficha.
+     */
+    List<Control> getControlesOfFicha(Long numero);
+
+    /**
+     * Ruta 6
+     * @param numero de la ficha
+     * @return la Persona (Duenio) de Ficha.
+     */
+    Persona getDuenioOfFicha(Long numero);
 
 
 }
