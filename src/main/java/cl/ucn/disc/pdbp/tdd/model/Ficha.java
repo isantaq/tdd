@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Ignacio Santander Quiñones <ignacio.santander@alumnos.ucn.cl>.
+ * Copyright (c) 2020 Ignacio Santander Quiñones <ignacio.santander@alumnos.ucn.cl>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -31,6 +31,8 @@ import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -106,7 +108,7 @@ public final class Ficha {
      * La lista de controles
      */
     @ForeignCollectionField
-    private ForeignCollection<Control> controlList;
+    private ForeignCollection<Control> controles;
 
     /**
      * The empty constructor.
@@ -234,6 +236,13 @@ public final class Ficha {
      */
     public Long getId() {
         return id;
+    }
+
+    /**
+     * @return the List of Controles.
+     */
+    public List<Control> getControles(){
+        return Collections.unmodifiableList(new ArrayList<>(controles));
     }
 
 }
