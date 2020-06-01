@@ -211,7 +211,7 @@ public class ContratosImpl implements Contratos{
     }
 
     /**
-     * Ruta 1
+     * Ruta 1 GET
      * @return la lista de todas las Fichas.
      */
     @Override
@@ -220,7 +220,16 @@ public class ContratosImpl implements Contratos{
     }
 
     /**
-     * Ruta 3
+     * Ruta 1 POST getPersona para duenio
+     */
+    @Override
+    public Persona getPersona(Long idDuenio) {
+        return this.repoPersona.findAll("numero",idDuenio).get(0);
+    }
+
+
+    /**
+     * Ruta 3 GET
      * @return la lista de todas las Personas.
      */
     @Override
@@ -229,12 +238,41 @@ public class ContratosImpl implements Contratos{
     }
 
     /**
-     * Ruta 5
+     * Ruta 5 GET
      * @return la lista de todas las Personas.
      */
     @Override
     public List<Control> getControlesOfFicha(Long numero){
         return this.repoFicha.findAll("numero", numero).get(0).getControles();
+    }
+
+    /**
+     * Ruta 5 POST
+     * @return la lista.
+     */
+    @Override
+    public Ficha getFicha(Long numero){
+        return this.repoFicha.findAll("numero",numero).get(0);
+    }
+
+    /**
+     * Ruta 5 POST
+     * @param control control a registrar
+     * @return el control
+     */
+    public Control registrarControl(Control control){
+
+        // Nullity
+        if (control == null) throw new IllegalArgumentException("Control was null!");
+        // Crear persona en la BD
+        try {
+            this.repoControl.create(control);
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+        // Obtengo persona de la BD
+        Control control2 = repoControl.findById(control.getIdControl());
+        return control2;
     }
 
     /**
