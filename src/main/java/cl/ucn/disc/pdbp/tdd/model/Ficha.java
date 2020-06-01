@@ -47,6 +47,7 @@ public final class Ficha {
      */
     @DatabaseField(generatedId = true)
     private Long id;
+
     /**
      * Numero de ficha
      */
