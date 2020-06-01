@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Ignacio Santander Quiñones <ignacio.santander@alumnos.ucn.cl>.
+ * Copyright (c) 2020 Ignacio Santander Quiñones <ignacio.santander@alumnos.ucn.cl>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -74,7 +74,7 @@ public class RepositoryOrmLite<T, K> implements Repository<T, K> {
     /**
      * @param key to filter.
      * @param value to search.
-     * @return
+     * @return theDao.queryForEq(key,value)
      */
     public List<T> findAll(String key, Object value){
         try{
