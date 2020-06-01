@@ -228,4 +228,11 @@ public final class Control {
     public Ficha getFicha(){
         return ficha;
     }
+
+    /**
+     * @return the id del control
+     */
+    public Long getIdControl() {
+        return idControl;
+    }
 }
