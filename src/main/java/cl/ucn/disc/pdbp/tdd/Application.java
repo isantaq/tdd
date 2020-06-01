@@ -95,32 +95,47 @@ public final class Application {
                 // /fichas
                 ApiBuilder.path("fichas", () -> {
 
-                    // Get -> /fichas
+                    // GET -> /fichas
                     ApiBuilder.get(ApiRestEndpoints::getAllFichas);
 
-                    // Get -> /fichas/find/{query}
+                    // POST -> /fichas
+                    ApiBuilder.post(ApiRestEndpoints::createFicha);
+
+                    // GET -> /fichas/find/{query}
                     ApiBuilder.path("find/:query",()->{
                         ApiBuilder.get(ApiRestEndpoints::findFichas);
                     });
 
-                    // Get -> /fichas/{numeroFicha}/controles
+                    // /fichas/{numeroFicha}/controles
                     ApiBuilder.path(":numeroFicha/controles",()->{
+
+                        // POST -> /fichas/{numeroFicha}/controles
+                        ApiBuilder.post(ApiRestEndpoints::createControl);
+
+                        // GET -> /fichas/{numeroFicha}/controles
                         ApiBuilder.get(ApiRestEndpoints::getControlesOfFicha);
+
                     });
 
-                    // Get -> /fichas/{numeroFicha}/persona
+                    // /fichas/{numeroFicha}/persona
                     ApiBuilder.path(":numeroFicha/persona",()->{
+
+                        // GET -> /fichas/{numeroFicha}/persona
                         ApiBuilder.get(ApiRestEndpoints::getDuenioOfFicha);
+
                     });
                 });
 
                 // /personas
                 ApiBuilder.path("personas",()->{
 
-                    // Get -> /personas
+                    // GET -> /personas
                     ApiBuilder.get(ApiRestEndpoints::getAllPersonas);
 
-                    // Get -> /personas/?/pageSize={size}&page={number}
+                    // POST -> /personas
+                    ApiBuilder.post(ApiRestEndpoints::createPersona);
+
+                    // GET -> /personas/?/pageSize={size}&page={number}
 
                 });
             });
