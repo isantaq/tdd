@@ -57,30 +57,50 @@ public interface Contratos {
     List<Ficha> buscarFicha(String query);
 
     /**
-     * Ruta 1
+     * Ruta 1 GET
      * @return la lista de todas las fichas.
      */
     List<Ficha> getAllFichas();
 
     /**
-     * Ruta 3
+     * Ruta 1 POST getPersona para duenio
+     */
+    Persona getPersona(Long idDuenio);
+
+    /**
+     * Ruta 3 GET
      * @return la lista de todas las personas.
      */
     List<Persona> getAllPersonas();
 
     /**
-     * Ruta 5
+     * Ruta 5 GET
      * @param numero de la ficha
      * @return la lista de todos los Controles de una Ficha.
      */
     List<Control> getControlesOfFicha(Long numero);
 
     /**
-     * Ruta 6
+     * Ruta 5 POST
+     * @param numero de la ficha
+     * @return la ficha.
+     */
+    Ficha getFicha(Long numero);
+
+    /**
+     * Ruta 5 POST
+     * @param control el control a registrar
+     * @return el control.
+     */
+    Control registrarControl(Control control);
+
+    /**
+     * Ruta 6 GET
      * @param numero de la ficha
      * @return la Persona (Duenio) de Ficha.
      */
     Persona getDuenioOfFicha(Long numero);
+
 
 
 }
