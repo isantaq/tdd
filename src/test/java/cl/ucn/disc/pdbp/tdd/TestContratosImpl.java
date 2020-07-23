@@ -44,7 +44,7 @@ public class TestContratosImpl {
     private static final Logger log = LoggerFactory.getLogger(TestContratosImpl.class);
 
     /**
-     *
+     * Test para Registrar Paciente
      */
     @Test
     public void testRegistrarPaciente() {
@@ -90,7 +90,7 @@ public class TestContratosImpl {
     }
 
     /**
-     *
+     * Test para Registrar Persona
      */
     @Test
     public void testRegistrarPersona() {
@@ -121,7 +121,7 @@ public class TestContratosImpl {
     }
 
     /**
-     *
+     * Test para Buscar Ficha
      */
     @Test
     public void testBuscarFicha() {
