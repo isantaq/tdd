@@ -80,6 +80,7 @@ public final class Application {
 
             // Measure the time
             javalinConfig.requestLogger(((ctx, executionTimeMs) -> {
+                // Tiempo que se ejecuta en iniciar el servidor
                 log.info("Server {} in {} ms.", ctx.fullUrl(), executionTimeMs);
                 ctx.header("Server-Timing", "total;dur=" + executionTimeMs);
             }));
@@ -133,8 +134,9 @@ public final class Application {
                     ApiBuilder.get(ApiRestEndpoints::getAllPersonas);
 
                     // POST -> /personas
-                    ApiBuilder.post(ApiRestEndpoints::createPersona);
-
+                    ApiBuilder.path("?",()->{
+                        ApiBuilder.post(ApiRestEndpoints::createPersona);
+                    });
                     // GET -> /personas/?/pageSize={size}&page={number}
 
                 });
