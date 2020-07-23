@@ -71,26 +71,26 @@ public final class ApiRestEndpoints {
         log.debug("Creating Ficha ..");
 
         // Obtain the data for the parameters
-        Long numero = Long.parseLong(ctx.formParam("numero"));
-        String nombrePaciente = ctx.formParam("nombrePaciente");
-        String especie = ctx.formParam("especie");
-        String raza = ctx.formParam("raza");
+        Long numero = Long.parseLong(ctx.queryParam("numero"));
+        String nombrePaciente = ctx.queryParam("nombrePaciente");
+        String especie = ctx.queryParam("especie");
+        String raza = ctx.queryParam("raza");
         Sexo sexo;
-        if(ctx.formParam("sexo").equalsIgnoreCase("hembra")){
+        if(ctx.queryParam("sexo").equalsIgnoreCase("hembra")){
             sexo = Sexo.HEMBRA;
         }else{
             sexo = Sexo.MACHO;
         }
-        String color = ctx.formParam("color");
+        String color = ctx.queryParam("color");
         Tipo tipo;
-        if(ctx.formParam("tipo").equalsIgnoreCase("externo")){
+        if(ctx.queryParam("tipo").equalsIgnoreCase("externo")){
             tipo = Tipo.EXTERNO;
         }else{
             tipo = Tipo.INTERNO;
         }
         // Create the entitys
-        Long idDuenio = Long.parseLong(ctx.formParam("duenio"));
-        Persona duenio = CONTRATOS.getDuenioOfFicha(idDuenio);
+        Long idDuenio = Long.parseLong(ctx.queryParam("duenio"));
+        Persona duenio = CONTRATOS.getPersona(idDuenio);
 
         Ficha ficha = new Ficha(numero,nombrePaciente,especie,ZonedDateTime.now(),raza,sexo,color,tipo,duenio);
         CONTRATOS.registrarPaciente(ficha);
@@ -126,17 +126,19 @@ public final class ApiRestEndpoints {
     public static void createPersona(Context ctx){
         log.debug("Creating Persona ..");
         // Obtain the data for the parameters
-        String nombre = ctx.formParam("nombre");
-        String apellido = ctx.formParam("apellido");
-        String rut = ctx.formParam("rut");
-        String direccion = ctx.formParam("direccion");
-        Integer telefonoFijo = Integer.parseInt(ctx.formParam("telefonoFijo"));
-        Integer telefonoMovil = Integer.parseInt(ctx.formParam("telefonoMovil"));
-        String email = ctx.formParam("email");
+        String nombre = ctx.queryParam("nombre");
+        String apellido = ctx.queryParam("apellido");
+        String rut = ctx.queryParam("rut");
+        String direccion = ctx.queryParam("direccion");
+        Integer telefonoFijo = Integer.parseInt(ctx.queryParam("telefonoFijo"));
+        Integer telefonoMovil = Integer.parseInt(ctx.queryParam("telefonoMovil"));
+        String email = ctx.queryParam("email");
 
         // Create the entitys
-        Persona persona = new Persona(nombre,apellido,rut,direccion,telefonoFijo,telefonoMovil,email);
+        Persona persona = new Persona(nombre, apellido, rut, direccion, telefonoFijo, telefonoMovil, email);
+
         CONTRATOS.registrarPersona(persona);
+
         ctx.json(persona);
     }
 
@@ -151,6 +153,7 @@ public final class ApiRestEndpoints {
         ctx.json(controles);
     }
 
+
     /**
      * Ruta 5 POST
      * @param ctx the Javalin {@link Context}.
@@ -160,14 +163,16 @@ public final class ApiRestEndpoints {
         log.debug("Creating Control ..");
 
         // Obtain the data for the parameters
-        Double temperatura = Double.parseDouble(ctx.formParam("nombrePaciente"));
-        Double peso = Double.parseDouble(ctx.formParam("peso"));
-        Double altura = Double.parseDouble(ctx.formParam("altura"));
-        String diagnostico = ctx.formParam("diagnostico");
+        ZonedDateTime fecha = ZonedDateTime.parse(ctx.queryParam("fecha"));
+        ZonedDateTime fechaProximoControl = ZonedDateTime.parse(ctx.queryParam("fechaProximoControl"));
+        Double temperatura = Double.parseDouble(ctx.queryParam("temperatura"));
+        Double peso = Double.parseDouble(ctx.queryParam("peso"));
+        Double altura = Double.parseDouble(ctx.queryParam("altura"));
+        String diagnostico = ctx.queryParam("diagnostico");
 
-        Long numeroFicha = Long.parseLong(ctx.formParam("numero"));
+        Long numeroFicha = Long.parseLong(ctx.queryParam("ficha"));
         Ficha ficha = CONTRATOS.getFicha(numeroFicha);
-        Long idVeterinario = Long.parseLong(ctx.formParam("veterinario"));
+        Long idVeterinario = Long.parseLong(ctx.queryParam("veterinario"));
         Persona veterinario = CONTRATOS.getPersona(idVeterinario);
 
         // New Control
