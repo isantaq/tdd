@@ -126,13 +126,22 @@ public final class Persona {
 
         // Los parametros no pueden ser null
         if(nombre == null ||
-                apellido == null ||
-                rut == null ||
-                direccion == null ||
-                telefonoFijo == null ||
-                telefonoMovil == null ||
-                email == null)
-            throw new NullPointerException("Ningun parametro puede ser null");
+                apellido == null
+                )
+            throw new NullPointerException("Nombre o Apellido no puede ser null");
+
+        if(rut == null)
+            throw new NullPointerException("Rut no puede ser null");
+
+        if(direccion == null)
+            throw new NullPointerException("Direccion no puede ser null");
+
+        if(telefonoFijo == null ||
+                telefonoMovil == null)
+            throw new NullPointerException("Telefonos no pueden ser null");
+
+        if(email == null)
+            throw new NullPointerException("Email no puede ser null");
 
         // Nombre debe tener al menos 3 letras.
         if(nombre.length()<3 || apellido.length()<3 || direccion.length()<3) {
