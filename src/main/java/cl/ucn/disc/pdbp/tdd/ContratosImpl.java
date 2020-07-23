@@ -224,7 +224,7 @@ public class ContratosImpl implements Contratos{
      */
     @Override
     public Persona getPersona(Long idDuenio) {
-        return this.repoPersona.findAll("numero",idDuenio).get(0);
+        return this.repoPersona.findAll("id",idDuenio).get(0);
     }
 
 
@@ -284,5 +284,6 @@ public class ContratosImpl implements Contratos{
     public Persona getDuenioOfFicha(Long numero) {
         return this.repoFicha.findAll("numero", numero).get(0).getDuenio();
     }
+    // Puede retornar un null findDuenioOfFicha, numero no puede ser null, no puede ser negativo
 
 }
